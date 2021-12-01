@@ -7,16 +7,7 @@ defmodule Sonar do
       |> Enum.map(fn x -> String.to_integer(x) end)
 
     measurements
-    |> Enum.with_index()
-    |> Enum.reduce(0, fn {measurement, index}, acc ->
-      if measurement > Enum.at(measurements, index - 1) do
-        IO.puts("#{measurement} (increased)")
-        1 + acc
-      else
-        IO.puts("#{measurement} (decreased)")
-        acc
-      end
-    end)
+    |> compare()
     |> IO.puts()
   end
 
@@ -41,17 +32,22 @@ defmodule Sonar do
       end)
 
     windows
+    |> compare()
+    |> IO.puts()
+  end
+
+  defp compare(list) do
+    list
     |> Enum.with_index()
-    |> Enum.reduce(0, fn {window, index}, acc ->
-      if window > Enum.at(windows, index - 1) do
-        IO.puts("#{window} (increased)")
+    |> Enum.reduce(0, fn {item, index}, acc ->
+      if item > Enum.at(list, index - 1) do
+        IO.puts("#{item} (increased)")
         1 + acc
       else
-        IO.puts("#{window} (decreased)")
+        IO.puts("#{item} (decreased)")
         acc
       end
     end)
-    |> IO.puts()
   end
 
   defp measurements(file) do
